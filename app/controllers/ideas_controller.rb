@@ -5,6 +5,17 @@ class IdeasController < ApplicationController
   # GET /ideas.json
   def index
     @ideas = Idea.all
+    material_first_id = Material.first.id
+    material_last_id = Material.last.id
+    if material_last_id >= 2
+      rand_id_a = rand(material_first_id..material_last_id)
+      rand_id_b = rand(material_first_id..material_last_id)
+      rand_id_b = rand(material_first_id..material_last_id) while rand_id_a == rand_id_b
+      @material_a = Material.find(rand_id_a)
+      @material_b = Material.find(rand_id_b)
+    else
+      redirect_to root_path
+    end
   end
 
   # GET /ideas/1
@@ -24,6 +35,7 @@ class IdeasController < ApplicationController
   # POST /ideas
   # POST /ideas.json
   def create
+
     @idea = Idea.new(idea_params)
 
     respond_to do |format|
