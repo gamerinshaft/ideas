@@ -1,5 +1,60 @@
-<h1>New Idea</h1>
+<div class="row max-h">
+  <div class="flex flex-md-10 panel a">
+    <div class="column max-h">
+      <div class="flex flex-xs-auto"></div>
+      <div class="center material"><%= @material_a.name %></div>
+      <div class="flex flex-xs-auto"></div>
+    </div>
+  </div>
+  <div class="flex flex-md-10 panel b">
+    <div class="column max-h">
+      <div class="flex flex-xs-auto"></div>
+      <div class="center material"><%= @material_b.name %></div>
+      <div class="flex flex-xs-auto"></div>
+    </div>
+  </div>
+  <div class="row max-h absolute">
+    <div class="flex flex-xs-auto"></div>
+    <div class="column max-h">
+      <div class="flex flex-xs-auto"></div>
+      <div class="times center">×</div>
+      <div class="flex flex-xs-auto"></div>
+    </div>
+    <div class="flex flex-xs-auto"></div>
+  </div>
 
-<%= render 'form' %>
+
+</div>
+
+
+
+
+<%= form_for(@idea) do |f| %>
+  <% if @idea.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@idea.errors.count, "error") %> prohibited this idea from being saved:</h2>
+
+      <ul>
+      <% @idea.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :content %><br>
+    <%= f.text_area :content %>
+  </div>
+  <div class="actions">
+    <%= f.hidden_field :a_id, value: "#{@material_a.id}" %>
+    <%= f.hidden_field :b_id, value: "#{@material_b.id}" %>
+    <%= f.submit %>
+  </div>
+<% end %>
 
 <%= link_to 'Back', ideas_path %>

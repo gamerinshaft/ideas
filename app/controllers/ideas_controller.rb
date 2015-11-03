@@ -5,6 +5,15 @@ class IdeasController < ApplicationController
   # GET /ideas.json
   def index
     @ideas = Idea.all
+  end
+
+  # GET /ideas/1
+  # GET /ideas/1.json
+  def show
+  end
+
+  # GET /ideas/new
+  def new
     @idea = Idea.new
     material_first_id = Material.first.id
     material_last_id = Material.last.id
@@ -17,16 +26,6 @@ class IdeasController < ApplicationController
     else
       redirect_to root_path
     end
-  end
-
-  # GET /ideas/1
-  # GET /ideas/1.json
-  def show
-  end
-
-  # GET /ideas/new
-  def new
-    @idea = Idea.new
   end
 
   # GET /ideas/1/edit
