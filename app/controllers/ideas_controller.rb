@@ -5,6 +5,7 @@ class IdeasController < ApplicationController
   # GET /ideas.json
   def index
     @ideas = Idea.all
+    @idea = Idea.new
     material_first_id = Material.first.id
     material_last_id = Material.last.id
     if material_last_id >= 2
@@ -35,8 +36,12 @@ class IdeasController < ApplicationController
   # POST /ideas
   # POST /ideas.json
   def create
+    @params = params.require(:idea).permit(:name, :content, :a_id, :b_id)
 
-    @idea = Idea.new(idea_params)
+    @theme = Theme.new(a_material_id: @params[:a_id], b_material_id: @params[:b_id])
+    @theme.save
+
+    @idea = @theme.ideas.build(idea_params)
 
     respond_to do |format|
       if @idea.save

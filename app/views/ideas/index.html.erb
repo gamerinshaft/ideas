@@ -4,6 +4,35 @@
 
 <div><%= @material_a.name %></div>
 <div><%= @material_b.name %></div>
+
+<%= form_for(@idea) do |f| %>
+  <% if @idea.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@idea.errors.count, "error") %> prohibited this idea from being saved:</h2>
+
+      <ul>
+      <% @idea.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :content %><br>
+    <%= f.text_area :content %>
+  </div>
+  <div class="actions">
+    <%= f.hidden_field :a_id, value: "#{@material_a.id}" %>
+    <%= f.hidden_field :b_id, value: "#{@material_b.id}" %>
+    <%= f.submit %>
+  </div>
+<% end %>
+
 <table>
   <thead>
     <tr>
