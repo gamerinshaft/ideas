@@ -2,11 +2,23 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+input.title{
+  box-sizing: border-box;
+  color: #777;
+  width: 100%;
+  padding: 8px;
+  font-size: 24px;
+  -webkit-font-smoothing: antialiased;
+  outline: none;
+  box-shadow: none;
+  border: 1px solid #ddd;
+  line-height: 28px;
+}
 .material{
   font-size: 40px;
   -webkit-font-smoothing: antialiased;
   font-family: monospace;
-  color: white;
+  color: #555;
   position: relative;
 }
 .absolute{
@@ -19,26 +31,106 @@
   right: 0;
 }
 .times{
-  font-size: 160px;
-  color: white;
-  top: -20px;
+  font-size: 40px;
+  color: #555;
   position: relative;
 }
 .panel{
   position: relative;
   overflow: hidden;
   height: 50%;
+  border: solid 1px #aaa;
 }
 .panel.a{
-  background-color: #2196F3;
+  background-color: rgba(33, 150, 243, 0.4);
+  border-right: none;
+  color: #888;
 }
 
 .panel.b{
-  background-color: #673AB7;
+  background-color: rgba(103,58,183,0.4);
+  border-left: none;
 }
 
 @media (min-width: 960px) {
   .panel{
     height: 100%;
   }
+}
+
+.markdown, .markdown_convert{
+  display: inline-block;
+  width: 50%;
+  position: absolute;
+  margin: 4px 0px;
+  top: 0px;
+  bottom: -4px;
+  box-sizing: border-box;
+  border: solid 1px #ddd;
+  color: #555;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  padding: 8px;
+}
+.markdown{
+  left: 0px;
+  resize: none;
+  outline: none;
+}
+.markdown_convert{
+  background-color: white;
+  right: 1px;
+  word-wrap: break-word;
+  line-height: 24px;
+}
+.leftmenu{
+  top: 0px;
+  bottom: 0px;
+  position: absolute;
+  right: 0px;
+  left: 0px;
+  padding: 4px;
+  overflow: scroll;
+}
+.save{
+  height: auto !important;
+  width: 100%;
+  background-color: white;
+  border: solid 1px #ddd;
+  color: #888;
+  cursor: pointer;
+  outline: none;
+  padding: 8px;
+  box-sizing: border-box;
+  text-align: center;
+  &:hover{
+    color: #222;
+  }
+}
+ul.frame{
+  height: auto !important;
+  width: 100%;
+  background-color: white;
+  border: solid 1px #ddd;
+  color: #888;
+  padding: 0px;
+  list-style: none;
+}
+ul.frame li{
+}
+ul.frame li.head{
+  padding: 8px;
+  font-size: 10px;
+  color: #333;
+  background-color: #ddd;
+}
+ul.frame li a{
+  text-decoration: none;
+  display: block;
+  padding: 8px;
+  border-top: 1px solid #ddd;
+  box-sizing: border-box;
+  color: #555;
+  font-size: 10px;
+  width: 100%;
 }

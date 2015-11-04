@@ -25,6 +25,8 @@ class IdeasController < ApplicationController
       rand_id_b = rand(material_first_id..material_last_id) while rand_id_a == rand_id_b
       @material_a = Material.find(rand_id_a)
       @material_b = Material.find(rand_id_b)
+      rand_id_a, rand_id_b = rand_id_b, rand_id_a if rand_id_a > rand_id_b
+      @theme = Theme.find_by(child_numbers: "#{rand_id_a},#{rand_id_b}")
     end
   end
 
@@ -52,9 +54,9 @@ class IdeasController < ApplicationController
         else
           theme = Theme.find_by(child_numbers: child_numbers)
           if theme.nil?
-            @theme = Theme.create(child_numbers: child_numbers)
-            @theme.inputs << Input.create(material_id: a)
-            @theme.inputs << Input.create(material_id: b)
+            theme = Theme.create(child_numbers: child_numbers)
+            theme.inputs << Input.create(material_id: a)
+            theme.inputs << Input.create(material_id: b)
             theme.ideas << @idea
           else
             theme.ideas << @idea
