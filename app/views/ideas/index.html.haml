@@ -1,0 +1,17 @@
+%p#notice= notice
+%h1 Listing Ideas
+.container
+  .row
+    - @ideas.each do |idea|
+      .flex.flex-fluid-xs-33
+        .frame.z2
+      /
+        <tr>
+        <td><haml_loud> idea.name </haml_loud></td>
+        <td><haml_loud> idea.content </haml_loud></td>
+        <td><haml_loud> link_to &#39;Show&#39;, idea </haml_loud></td>
+        <td><haml_loud> link_to &#39;Edit&#39;, edit_idea_path(idea) </haml_loud></td>
+        <td><haml_loud> link_to &#39;Destroy&#39;, idea, method: :delete, data: { confirm: &#39;Are you sure?&#39; } </haml_loud></td>
+        </tr>
+%br/
+= link_to 'New Idea', new_idea_path

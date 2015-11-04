@@ -1,0 +1,7 @@
+%h1 Themes#index
+%p Find me in app/views/themes/index.html.erb
+- @themes.each do |theme|
+  - theme.materials.each do |material|
+    = material.name
+  - theme.ideas.each do |idea|
+    = idea.name

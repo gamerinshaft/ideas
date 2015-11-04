@@ -1,0 +1,40 @@
+.row.max-h
+  .flex.flex-md-10.panel.a
+    .column.max-h
+      .flex.flex-xs-auto
+      .center.material= @material_a.name
+      .flex.flex-xs-auto
+  .flex.flex-md-10.panel.b
+    .column.max-h
+      .flex.flex-xs-auto
+      .center.material= @material_b.name
+      .flex.flex-xs-auto
+  .row.max-h.absolute
+    .flex.flex-xs-auto
+    .column.max-h
+      .flex.flex-xs-auto
+      .times.center ×
+      .flex.flex-xs-auto
+    .flex.flex-xs-auto
+= form_for(@idea) do |f|
+  - if @idea.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@idea.errors.count, "error")
+        prohibited this idea from being saved:
+      %ul
+        - @idea.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = f.label :name
+    %br/
+    = f.text_field :name
+  .field
+    = f.label :content
+    %br/
+    = f.text_area :content
+  .actions
+    = f.hidden_field :a_id, value: "#{@material_a.id}"
+    = f.hidden_field :b_id, value: "#{@material_b.id}"
+    = f.submit
+= link_to 'Back', ideas_path
