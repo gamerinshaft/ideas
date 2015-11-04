@@ -1,2 +1,11 @@
 <h1>Themes#index</h1>
 <p>Find me in app/views/themes/index.html.erb</p>
+
+<% @themes.each do |theme| %>
+  <% theme.materials.each do |material| %>
+    <%= material.name %>
+  <% end %>
+  <% theme.ideas.each do |idea| %>
+    <%= idea.name %>
+  <% end %>
+<% end %>

@@ -35,17 +35,18 @@ class IdeasController < ApplicationController
   # POST /ideas
   # POST /ideas.json
   def create
+    @idea = Idea.new(idea_params)
     @params = params.require(:idea).permit(:name, :content, :a_id, :b_id)
-
-    @theme = Theme.new(a_material_id: @params[:a_id], b_material_id: @params[:b_id])
-    @theme.save
-
-    @idea = @theme.ideas.build(idea_params)
 
     respond_to do |format|
       if @idea.save
-        format.html { redirect_to @idea, notice: 'Idea was successfully created.' }
-        format.json { render :show, status: :created, location: @idea }
+        @theme = Theme.create
+        @theme.theme_materials << ThemeMaterial.new(material_id: @params[:a_id])
+        @theme.theme_materials << ThemeMaterial.new(material_id: @params[:b_id])
+        @idea.update(theme_id: @theme.id)
+
+        format.html { redirect_to action: 'index', notice: 'Idea was successfully created.' }
+        format.json { render :index, status: :created, location: @idea }
       else
         format.html { render :new }
         format.json { render json: @idea.errors, status: :unprocessable_entity }
