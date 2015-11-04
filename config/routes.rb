@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :materials
   get 'themes/index'
 
   resources :themes, only: [:index]

@@ -15,16 +15,16 @@ class IdeasController < ApplicationController
   # GET /ideas/new
   def new
     @idea = Idea.new
-    material_first_id = Material.first.id
-    material_last_id = Material.last.id
-    if material_last_id >= 2
+    if Material.all.size <= 1
+      redirect_to new_material_path
+    else
+      material_first_id = Material.first.id
+      material_last_id = Material.last.id
       rand_id_a = rand(material_first_id..material_last_id)
       rand_id_b = rand(material_first_id..material_last_id)
       rand_id_b = rand(material_first_id..material_last_id) while rand_id_a == rand_id_b
       @material_a = Material.find(rand_id_a)
       @material_b = Material.find(rand_id_b)
-    else
-      redirect_to root_path
     end
   end
 
@@ -40,10 +40,26 @@ class IdeasController < ApplicationController
 
     respond_to do |format|
       if @idea.save
-        @theme = Theme.create
-        @theme.theme_materials << ThemeMaterial.new(material_id: @params[:a_id])
-        @theme.theme_materials << ThemeMaterial.new(material_id: @params[:b_id])
-        @idea.update(theme_id: @theme.id)
+        a = @params[:a_id].to_i
+        b = @params[:b_id].to_i
+        a,b = b,a if a > b
+        child_numbers = "#{a},#{b}"
+        if Theme.all.empty?
+          theme = Theme.create(child_numbers: child_numbers)
+          theme.inputs << Input.create(material_id: a)
+          theme.inputs << Input.create(material_id: b)
+          theme.ideas << @idea
+        else
+          theme = Theme.find_by(child_numbers: child_numbers)
+          if theme.nil?
+            @theme = Theme.create(child_numbers: child_numbers)
+            @theme.inputs << Input.create(material_id: a)
+            @theme.inputs << Input.create(material_id: b)
+            theme.ideas << @idea
+          else
+            theme.ideas << @idea
+          end
+        end
 
         format.html { redirect_to action: 'index', notice: 'Idea was successfully created.' }
         format.json { render :index, status: :created, location: @idea }

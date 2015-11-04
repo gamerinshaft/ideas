@@ -1,6 +1,6 @@
-class CreateThemeMaterials < ActiveRecord::Migration
+class CreateInputs < ActiveRecord::Migration
   def change
-    create_table :theme_materials do |t|
+    create_table :inputs do |t|
       t.integer :material_id
       t.integer :theme_id
 
