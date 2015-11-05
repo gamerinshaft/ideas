@@ -86,7 +86,7 @@
               $("#convert").html("<h1>"+title+"</h1>" + $.parseJSON(data).markdown)
           },
           error: function(data) {
-              alert("errror");
+            console.log("error")
           }
       });
     });
