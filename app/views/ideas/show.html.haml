@@ -1,10 +1,15 @@
-%p#notice= notice
-%p
-  %strong Name:
-  = @idea.name
-%p
-  %strong Content:
-  = @idea.content
-= link_to 'Edit', edit_idea_path(@idea)
-|
-= link_to 'Back', ideas_path
+.container
+  .markdown_content.max-w.relative
+    #convert
+      %h1
+        = @idea.name
+      = markdown(@idea.content)
+  .row
+    .flex.flex-xs-3
+      = link_to edit_idea_path(@idea), class: "frame z1 max-w center block" do
+        Edit
+    .flex.flex-xs-3
+      = link_to new_idea_path, class: "frame z1 max-w center block" do
+        Back
+
+

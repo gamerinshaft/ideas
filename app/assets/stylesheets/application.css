@@ -53,10 +53,18 @@ html, body{
   height: 100%;
 }
 
+.max-w{
+  width: 100%;
+}
+
 .container {
   max-width: 100%;
   margin-right: auto;
   margin-left: auto;
+}
+
+.block{
+  display: block;
 }
 
 @media (min-width: 768px) {
