@@ -14,6 +14,25 @@ class IdeasController < ApplicationController
 
   # GET /ideas/new
   def new
+    charset = nil
+    html = open("http://morizyun.github.io/blog/ruby-nokogiri-scraping-tutorial/") do |f|
+      charset = f.charset # 文字種別を取得
+      f.read # htmlを読み込んで変数htmlに渡す
+    end
+
+    # htmlをパース(解析)してオブジェクトを生成
+    doc = Nokogiri::HTML.parse(html, nil, charset)
+    nm = Natto::MeCab.new
+    nm.parse("腹減り") do |n|
+      h = n.feature.split(",")[0];
+      hoge = ""
+      if(h == "名詞")
+        hoge += " #{h.surface}"
+      end
+    end
+    # タイトルを表示
+    raise(hoge)
+    binding.pry
     @idea = Idea.new
     if Material.all.size <= 2
       redirect_to new_material_path
