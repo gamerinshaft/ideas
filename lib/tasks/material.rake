@@ -38,6 +38,7 @@ namespace :material do
         if feature.nil?
         else
           if feature.split(",")[0]=="名詞" && h[0].length > 1
+            puts h[0]
             Material.create(name: h[0])
           end
         end
