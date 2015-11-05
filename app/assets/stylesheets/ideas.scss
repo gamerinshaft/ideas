@@ -49,22 +49,25 @@ input.title{
   position: relative;
   overflow: hidden;
   height: 50%;
-  border: solid 1px #aaa;
+  border: solid 1px #222;
 }
 .panel.a{
-  background-color: rgba(33, 150, 243, 0.4);
+  background-color: rgb(0,71,179);
+  background-color:whitesmoke;
   border-right: none;
   color: #888;
 }
 
 .panel.b{
-  background-color: rgba(103,58,183,0.4);
+  background-color: rgb(0,128,218);
+  background-color: whitesmoke;
   border-right: none;
   border-left: none;
 }
 
 .panel.c{
-  background-color: rgba(103,158,183,0.4);
+  background-color: rgb(172,24,23);
+  background-color: whitesmoke;
   border-left: none;
 }
 @media (min-width: 960px) {
@@ -96,6 +99,7 @@ input.title{
   color: #555;
   padding: 8px;
   font-size: 16px;
+  line-height: 1.6;
 }
 .markdown{
   display: inline-block;
@@ -119,11 +123,17 @@ input.title{
   position: absolute;
   right: 0px;
   left: 0px;
-  padding: 4px;
   overflow: scroll;
+  background-color: rgba(57,59,61,0.9);
+  box-shadow: -5px 0px 4px rgba(0,0,0,0.3) inset;
+  padding: 8px;
+  .column{
+    box-sizing: inherit;
+  }
 }
-.save{
+.button{
   height: auto !important;
+  min-height: 36px;
   width: 100%;
   background-color: white;
   border: solid 1px #ddd;
@@ -133,6 +143,10 @@ input.title{
   padding: 8px;
   box-sizing: border-box;
   text-align: center;
+  text-decoration: none;
+  font-size: 12px;
+  display: block;
+  margin-top: 4px;
   &:hover{
     color: #222;
   }
@@ -150,9 +164,10 @@ ul.frame li{
 }
 ul.frame li.head{
   padding: 8px;
-  font-size: 10px;
   color: #333;
   background-color: #ddd;
+  font-size: 12px;
+  font-weight: bold;
 }
 ul.frame li a{
   text-decoration: none;
@@ -161,13 +176,22 @@ ul.frame li a{
   border-top: 1px solid #ddd;
   box-sizing: border-box;
   color: #555;
-  font-size: 10px;
+  font-size: 12px;
   width: 100%;
+}
+ul.frame li a:hover{
+  color: darkorange;
 }
 
 #convert{
   *:first-child {
       margin-top: 0 !important;
+  }
+  h1, h2, h3, h4, h5, h6 {
+      font-family: 'Helvetica Neue', Helvetica, 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', メイリオ, Meiryo, sans-serif;
+      font-weight: normal;
+      line-height: 1.4;
+      margin: 1.35em 0 .7em;
   }
   p {
       margin-bottom: 0;
@@ -177,18 +201,39 @@ ul.frame li a{
       margin: 10px 0;
   }
   h1 {
-      border-bottom: solid 3px #eee;
-      font-size: 24px;
+      border-bottom: 2px dashed #aaa;
+      font-size: 16px;
       line-height: 1.2;
       margin-bottom: 12px;
       margin-top: 64px;
-      padding-bottom: 8px;
+      padding: 8px;
+      padding-left: 0px;
   }
-  h1, h2, h3, h4, h5, h6 {
-      font-family: 'Helvetica Neue', Helvetica, 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', メイリオ, Meiryo, sans-serif;
-      font-weight: normal;
-      line-height: 1.4;
-      margin: 1.35em 0 .7em;
+  ul {
+    line-height: 1.7;
+    margin-bottom: 1em;
+    margin-top: 1em;
+    padding-left: 1.5em;
+  }
+  ul > li > ul{
+    margin: 0;
+  }
+  a {
+    color: #3c9a43;
+    text-decoration: none;
+    outline: none;
+    &:hover {
+      color: #1d5d23;
+    }
+  }
+  h2 {
+    font-size: 16px;
+    font-weight: bold;
+    color: #46a6c3;
+    padding: 8px 18px;
+    border: 1px solid #46a6c3;
+    border-left: 9px solid #46a6c3;
+    margin-top: 35px;
   }
 
 }

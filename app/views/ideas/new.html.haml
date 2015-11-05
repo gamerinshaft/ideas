@@ -1,10 +1,10 @@
-.container.max-h
+.max-h
   = form_for @idea, {:html => {class: "max-h"}} do |f|
     .row.max-h
-      .flex.flex-xs-5.max-h.relative
+      .flex.flex-xs-4.max-h.relative
         .leftmenu.scroll-wrap
-          .scroll
-            .aspectwrapper-3by2
+          .scroll.column.nowrap
+            .aspectwrapper-3by2.z1
               .content
                 .row.max-h
                   .flex.flex-fluid-md-33.panel.a
@@ -37,7 +37,7 @@
                       .flex.flex-xs-auto
                     .flex.flex-fluid-xs-33
             - unless @theme.nil?
-              %ul.frame
+              %ul.frame.z1
                 %li.head 他のアイデア
                 - @theme.ideas.each do |idea|
                   %li
@@ -47,40 +47,55 @@
             = f.hidden_field :a_id, value: "#{@material_a.id}"
             = f.hidden_field :b_id, value: "#{@material_b.id}"
             = f.hidden_field :c_id, value: "#{@material_c.id}"
-            = f.submit "保存する", class: "save"
-      .flex.flex-xs-15.max-h
+            = f.submit "保存する", class: "button save z1"
+            = link_to new_material_path, class: "button z1" do
+              新しくお題を作る
+      .flex.flex-xs-16.max-h
         .column.max-h
-          = f.text_field :name, placeholder: "タイトル", class: "title"
+          = f.text_field :name, placeholder: "タイトル", class: "title", id: "title"
           .flex.flex-xs-auto.relative
             .markdown.scroll-wrap
               = f.text_area :content, placeholder: "内容を記述", class: "scroll", id: "markdown"
             .markdown_content.scroll-wrap
               .scroll#convert
-                マークダウン
+                %h1 マークダウン
 :javascript
   $(function(){
     var $divs = $('#markdown, #convert');
     var sync = function(e){
+
         var $other = $divs.not(this).off('scroll'), other = $other.get(0);
         var percentage = this.scrollTop / (this.scrollHeight - this.offsetHeight);
         other.scrollTop = percentage * (other.scrollHeight - other.offsetHeight);
         setTimeout( function(){ $other.on('scroll', sync ); },10);
     }
     $divs.on( 'scroll', sync);
-    $("#markdown").keyup(function(){
-        $.ajax({
-            url: "api/markdown/convert",
-            type: "POST",
-            data: {
-                    markdown: $("#markdown")[0].value
-                    },
-            dataType: "html",
-            success: function(data) {
-                $("#convert").html($.parseJSON(data).markdown)
-            },
-            error: function(data) {
-                alert("errror");
-            }
-        });
+    $("#markdown, #title").keyup(function(e){
+      title = $('#title')[0].value
+      if(title.length == 0){
+        title = "タイトル"
+      }
+      $.ajax({
+          url: "/api/markdown/convert",
+          type: "POST",
+          data: {
+                  markdown: $("#markdown")[0].value
+                  },
+          dataType: "html",
+          success: function(data) {
+              $("#convert").html("<h1>"+title+"</h1>" + $.parseJSON(data).markdown)
+          },
+          error: function(data) {
+              alert("errror");
+          }
       });
+    });
+    $("input#title"). keydown(function(e) {
+      if ((e.which && e.which === 13) || (e.keyCode && e.keyCode === 13)) {
+        $("#markdown").focus();
+        return false;
+      } else {
+          return true;
+      }
+    });
   });

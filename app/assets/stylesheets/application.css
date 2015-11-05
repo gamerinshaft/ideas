@@ -1233,7 +1233,7 @@ html, body{
 .container{
   top: 16px;
   position: absolute;
-  bottom: 16px;
+  bottom: 0px;
   height: auto;
   right: 0px;
   left: 0px;
