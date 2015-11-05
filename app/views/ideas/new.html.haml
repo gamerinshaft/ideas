@@ -48,7 +48,7 @@
             = f.hidden_field :b_id, value: "#{@material_b.id}"
             = f.hidden_field :c_id, value: "#{@material_c.id}"
             = f.submit "保存する", class: "button save z1"
-            = link_to new_material_path, class: "button z1" do
+            = link_to new_material_path, class: "button z1", target: "_blank" do
               新しくお題を作る
       .flex.flex-xs-16.max-h
         .column.max-h
