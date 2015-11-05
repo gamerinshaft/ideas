@@ -170,6 +170,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   natto
+  nokogiri
   pg
   rails (= 4.2.1)
   redcarpet
