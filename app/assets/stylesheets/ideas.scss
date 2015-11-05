@@ -15,7 +15,7 @@ input.title{
   line-height: 28px;
 }
 .material{
-  font-size: 40px;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   font-family: monospace;
   color: #555;
@@ -31,9 +31,19 @@ input.title{
   right: 0;
 }
 .times{
-  font-size: 40px;
+  font-size: 24px;
   color: #555;
-  position: relative;
+  line-height: 26px;
+  &.left{
+    position: absolute;
+    left: -8px;
+    top: -14px;
+  }
+  &.right{
+    position: absolute;
+    left: -16px;
+    top: -14px;
+  }
 }
 .panel{
   position: relative;
@@ -49,16 +59,21 @@ input.title{
 
 .panel.b{
   background-color: rgba(103,58,183,0.4);
+  border-right: none;
   border-left: none;
 }
 
+.panel.c{
+  background-color: rgba(103,158,183,0.4);
+  border-left: none;
+}
 @media (min-width: 960px) {
   .panel{
     height: 100%;
   }
 }
 
-.markdown, .markdown_convert{
+.markdown_content{
   display: inline-block;
   width: 50%;
   position: absolute;
@@ -72,12 +87,27 @@ input.title{
   -webkit-font-smoothing: antialiased;
   padding: 8px;
 }
-.markdown{
+.markdown textarea{
   left: 0px;
   resize: none;
   outline: none;
+  border: solid 1px #ddd;
+  box-sizing: border-box;
+  color: #555;
+  padding: 8px;
+  font-size: 16px;
 }
-.markdown_convert{
+.markdown{
+  display: inline-block;
+  width: 50%;
+  position: absolute;
+  margin: 4px 0px;
+  top: 0px;
+  bottom: -4px;
+  left: 0px;
+  -webkit-font-smoothing: antialiased;
+}
+.markdown_content{
   background-color: white;
   right: 1px;
   word-wrap: break-word;
@@ -133,4 +163,32 @@ ul.frame li a{
   color: #555;
   font-size: 10px;
   width: 100%;
+}
+
+#convert{
+  *:first-child {
+      margin-top: 0 !important;
+  }
+  p {
+      margin-bottom: 0;
+      margin-top: 1.6em;
+      font-size: 1em;
+      word-wrap: break-word;
+      margin: 10px 0;
+  }
+  h1 {
+      border-bottom: solid 3px #eee;
+      font-size: 24px;
+      line-height: 1.2;
+      margin-bottom: 12px;
+      margin-top: 64px;
+      padding-bottom: 8px;
+  }
+  h1, h2, h3, h4, h5, h6 {
+      font-family: 'Helvetica Neue', Helvetica, 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', メイリオ, Meiryo, sans-serif;
+      font-weight: normal;
+      line-height: 1.4;
+      margin: 1.35em 0 .7em;
+  }
+
 }

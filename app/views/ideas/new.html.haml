@@ -4,26 +4,38 @@
       .flex.flex-xs-5.max-h.relative
         .leftmenu.scroll-wrap
           .scroll
-            .aspectwrapper-1by1
+            .aspectwrapper-3by2
               .content
                 .row.max-h
-                  .flex.flex-md-10.panel.a
+                  .flex.flex-fluid-md-33.panel.a
                     .column.max-h
                       .flex.flex-xs-auto
                       .center.material= @material_a.name
                       .flex.flex-xs-auto
-                  .flex.flex-md-10.panel.b
+                  .flex.flex-fluid-md-33.panel.b
                     .column.max-h
                       .flex.flex-xs-auto
                       .center.material= @material_b.name
                       .flex.flex-xs-auto
-                  .row.max-h.absolute
-                    .flex.flex-xs-auto
+                  .flex.flex-fluid-md-33.panel.c
                     .column.max-h
                       .flex.flex-xs-auto
-                      .times.center ×
+                      .center.material= @material_c.name
                       .flex.flex-xs-auto
-                    .flex.flex-xs-auto
+                  .row.max-h.absolute
+                    .flex.flex-fluid-xs-33
+                    .column.max-h
+                      .flex.flex-xs-auto
+                      .relative
+                        .times.left.center ×
+                      .flex.flex-xs-auto
+                    .flex.flex-fluid-xs-33
+                    .column.max-h
+                      .flex.flex-xs-auto
+                      .relative
+                        .times.right.center ×
+                      .flex.flex-xs-auto
+                    .flex.flex-fluid-xs-33
             - unless @theme.nil?
               %ul.frame
                 %li.head 他のアイデア
@@ -34,11 +46,41 @@
             .flex.flex-xs-auto
             = f.hidden_field :a_id, value: "#{@material_a.id}"
             = f.hidden_field :b_id, value: "#{@material_b.id}"
+            = f.hidden_field :c_id, value: "#{@material_c.id}"
             = f.submit "保存する", class: "save"
       .flex.flex-xs-15.max-h
         .column.max-h
           = f.text_field :name, placeholder: "タイトル", class: "title"
           .flex.flex-xs-auto.relative
-            = f.text_area :content, placeholder: "内容を記述", class: "markdown"
-            .markdown_convert
-              マークダウン
+            .markdown.scroll-wrap
+              = f.text_area :content, placeholder: "内容を記述", class: "scroll", id: "markdown"
+            .markdown_content.scroll-wrap
+              .scroll#convert
+                マークダウン
+:javascript
+  $(function(){
+    var $divs = $('#markdown, #convert');
+    var sync = function(e){
+        var $other = $divs.not(this).off('scroll'), other = $other.get(0);
+        var percentage = this.scrollTop / (this.scrollHeight - this.offsetHeight);
+        other.scrollTop = percentage * (other.scrollHeight - other.offsetHeight);
+        setTimeout( function(){ $other.on('scroll', sync ); },10);
+    }
+    $divs.on( 'scroll', sync);
+    $("#markdown").keyup(function(){
+        $.ajax({
+            url: "api/markdown/convert",
+            type: "POST",
+            data: {
+                    markdown: $("#markdown")[0].value
+                    },
+            dataType: "html",
+            success: function(data) {
+                $("#convert").html($.parseJSON(data).markdown)
+            },
+            error: function(data) {
+                alert("errror");
+            }
+        });
+      });
+  });

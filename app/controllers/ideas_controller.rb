@@ -15,7 +15,7 @@ class IdeasController < ApplicationController
   # GET /ideas/new
   def new
     @idea = Idea.new
-    if Material.all.size <= 1
+    if Material.all.size <= 2
       redirect_to new_material_path
     else
       material_first_id = Material.first.id
@@ -23,10 +23,15 @@ class IdeasController < ApplicationController
       rand_id_a = rand(material_first_id..material_last_id)
       rand_id_b = rand(material_first_id..material_last_id)
       rand_id_b = rand(material_first_id..material_last_id) while rand_id_a == rand_id_b
+      rand_id_c = rand(material_first_id..material_last_id)
+      rand_id_c = rand(material_first_id..material_last_id) while rand_id_c == rand_id_b || rand_id_c == rand_id_a
       @material_a = Material.find(rand_id_a)
       @material_b = Material.find(rand_id_b)
+      @material_c = Material.find(rand_id_c)
       rand_id_a, rand_id_b = rand_id_b, rand_id_a if rand_id_a > rand_id_b
-      @theme = Theme.find_by(child_numbers: "#{rand_id_a},#{rand_id_b}")
+      rand_id_b, rand_id_c = rand_id_c, rand_id_b if rand_id_b > rand_id_c
+      rand_id_a, rand_id_b = rand_id_b, rand_id_a if rand_id_a > rand_id_b
+      @theme = Theme.find_by(child_numbers: "#{rand_id_a},#{rand_id_b},#{rand_id_c}")
     end
   end
 
@@ -38,18 +43,22 @@ class IdeasController < ApplicationController
   # POST /ideas.json
   def create
     @idea = Idea.new(idea_params)
-    @params = params.require(:idea).permit(:name, :content, :a_id, :b_id)
+    @params = params.require(:idea).permit(:name, :content, :a_id, :b_id, :c_id)
 
     respond_to do |format|
       if @idea.save
         a = @params[:a_id].to_i
         b = @params[:b_id].to_i
+        c = @params[:c_id].to_i
         a,b = b,a if a > b
-        child_numbers = "#{a},#{b}"
+        b,c = c,b if b > c
+        a,b = b,a if a > b
+        child_numbers = "#{a},#{b},#{c}"
         if Theme.all.empty?
           theme = Theme.create(child_numbers: child_numbers)
           theme.inputs << Input.create(material_id: a)
           theme.inputs << Input.create(material_id: b)
+          theme.inputs << Input.create(material_id: c)
           theme.ideas << @idea
         else
           theme = Theme.find_by(child_numbers: child_numbers)
@@ -57,6 +66,7 @@ class IdeasController < ApplicationController
             theme = Theme.create(child_numbers: child_numbers)
             theme.inputs << Input.create(material_id: a)
             theme.inputs << Input.create(material_id: b)
+            theme.inputs << Input.create(material_id: c)
             theme.ideas << @idea
           else
             theme.ideas << @idea
