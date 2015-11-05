@@ -12,4 +12,15 @@ namespace :material do
     logger.info "------------------------------------------------------"
     logger.info "------------------------------------------------------"
   end
+  desc "materialを生成するお"
+
+  task :create, ['sitename'] => :environment do |task, args|
+    nm = Natto::MeCab.new
+    nm.parse("お腹減った") do |n|
+      h = n.feature.split(",")[0];
+      if(h == "名詞")
+        Material.create(name: "#{n.surface}")
+      end
+    end
+  end
 end
