@@ -1,3 +1,7 @@
+require "natto"
+require "nokogiri"
+require "open-uri"
+
 namespace :material do
   desc "materialを生成"
 
@@ -12,14 +16,31 @@ namespace :material do
     logger.info "------------------------------------------------------"
     logger.info "------------------------------------------------------"
   end
+
+
   desc "materialを生成するお"
 
   task :create, ['sitename'] => :environment do |task, args|
+    charset = nil
+    puts args
+    html = open(args[:sitename].to_s) do |f|
+      charset = f.charset # 文字種別を取得
+      f.read # htmlを読み込んで変数htmlに渡す
+    end
+
+    # htmlをパース(解析)してオブジェクトを生成
+    doc = Nokogiri::HTML.parse(html, nil, charset)
     nm = Natto::MeCab.new
-    nm.parse("お腹減った") do |n|
-      h = n.feature.split(",")[0];
-      if(h == "名詞")
-        Material.create(name: "#{n.surface}")
+    nm.parse(doc.text).split("\n").each do |n|
+      surface = n.split(" ")[0]
+      feature = n.split(" ")[1]
+      surface.match("[^\x01-\x7E]+") do|h|
+        if feature.nil?
+        else
+          if feature.split(",")[0]=="名詞" && h[0].length > 1
+            Material.create(name: h[0])
+          end
+        end
       end
     end
   end
