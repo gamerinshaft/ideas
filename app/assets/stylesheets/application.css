@@ -13,7 +13,9 @@
  *= require_tree .
  *= require_self
  */
-
+#markdown_dummy{
+  opacity: 0 !important;
+}
 html, body{
   height: 100%;
   margin: 0;
