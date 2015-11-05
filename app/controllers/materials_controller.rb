@@ -25,10 +25,14 @@ class MaterialsController < ApplicationController
   # POST /materials.json
   def create
     @material = Material.new(material_params)
-
+    bad_word = BadMaterial.find_by(name: material_params[:name])
     respond_to do |format|
-      if @material.save
-        format.html { redirect_to @material, notice: 'Material was successfully created.' }
+      if !bad_word.nil?
+        flash.now[:notice] = "Material was Bad word."
+        format.html { render :new }
+        format.json { render json: @material.errors, status: :unprocessable_entity }
+      elsif @material.save
+        format.html { redirect_to materials_url, notice: 'Material was successfully created.' }
         format.json { render :show, status: :created, location: @material }
       else
         format.html { render :new }
@@ -54,6 +58,7 @@ class MaterialsController < ApplicationController
   # DELETE /materials/1
   # DELETE /materials/1.json
   def destroy
+    BadMaterial.create(name: @material.name)
     @material.destroy
     respond_to do |format|
       format.html { redirect_to materials_url, notice: 'Material was successfully destroyed.' }

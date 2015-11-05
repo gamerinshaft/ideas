@@ -39,7 +39,10 @@ namespace :material do
         else
           if feature.split(",")[0]=="名詞" && h[0].length > 1
             puts h[0]
-            Material.create(name: h[0])
+            bad_word = BadMaterial.find_by(name: h[:0])
+            if bad_word.nil?
+              Material.create(name: h[0])
+            end
           end
         end
       end
